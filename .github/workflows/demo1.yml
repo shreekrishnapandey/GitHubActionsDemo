@@ -16,7 +16,7 @@ jobs:
       - name: Run PowerShell Script
         run: |
           # Define your API key and city
-          $apiKey = '<YOUR_API_KEY>'
+          $apiKey = 'e000c69b1b10983e066096ed591e21e2'
           $city = 'New York'  # Replace with the desired city
 
           # Make the API request
