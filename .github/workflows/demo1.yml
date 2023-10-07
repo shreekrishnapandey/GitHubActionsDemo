@@ -1,8 +1,29 @@
-name: hello-world
-'on': push
+name: Weather API
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to your repository's default branch
+
 jobs:
-  my-job:
-    runs-on: ubuntu-latest
+  get-weather:
+    runs-on: ubuntu-latest  # You can choose a different OS if needed
+
     steps:
-      - name: my-step
-        run: echo "Hello World!"
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Run PowerShell Script
+        run: |
+          # Define your API key and city
+          $apiKey = '<YOUR_API_KEY>'
+          $city = 'New York'  # Replace with the desired city
+
+          # Make the API request
+          $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey"
+          $response = Invoke-RestMethod -Uri $url -Method Get
+
+          # Display the JSON response
+          Write-Host "Weather Response:"
+          $response | ConvertTo-Json -Depth 4
+
