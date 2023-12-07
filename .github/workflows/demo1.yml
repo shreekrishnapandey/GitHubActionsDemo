@@ -11,8 +11,8 @@ jobs:
     steps:
     - id: step1
       run: |
-        agentIP= "hello"
-        echo "test= agentIP" >> $GITHUB_ENV
+        $agentIP= "hello"
+        echo "test= $agentIP" >> $GITHUB_ENV
 
   job2:
     runs-on: ubuntu-latest
