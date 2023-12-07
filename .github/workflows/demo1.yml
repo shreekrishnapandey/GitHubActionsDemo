@@ -7,15 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      output1: ${{ steps.step1.outputs.output1.test }}
+      output1: ${{ steps.step1.outputs.test }}
     steps:
     - id: step1
       run: |
-        $agentIP="192.168.1.1"
-        echo "$test=$agentIP" >> $GITHUB_ENV
+        $agentIP= "192.168.1.1"
+        echo "$test= agentIP" >> $GITHUB_ENV
 
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-    - run: echo ${{ needs.jobs.job1.outputs.output1 }}
+    - run: echo ${{ needs.job1.outputs.output1 }}
