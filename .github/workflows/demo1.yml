@@ -1,29 +1,22 @@
-name: Weather API
-
-on:
-  push:
-    branches:
-      - main  # Adjust this to your repository's default branch
+name: Transfer data between jobs
+on: [push]
 
 jobs:
-  get-weather:
-    runs-on: ubuntu-latest  # You can choose a different OS if needed
-
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      steps: ${{steps.job1_output.outputs }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Run PowerShell Script
+      - name: Set Variable in Job 1
+        id: job1_output
         run: |
-          # Define your API key and city
-          $apiKey = 'e000c69b1b10983e066096ed591e21e2'
-          $city = 'New York'  # Replace with the desired city
+          echo "AGENT_IP= 172.64.0.0.1" >> $GITHUB_ENV
+          echo "::set-output name=AGENT_IP::your-agent-ip"
 
-          # Make the API request
-          $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey"
-          $response = Invoke-RestMethod -Uri $url -Method Get
-
-          # Display the JSON response
-          Write-Host "Weather Response:"
-          $response | ConvertTo-Json -Depth 4
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Variable in Job 2
+        run: echo "AGENT_IP=${{ needs.job1.outputs.AGENT_IP }}"
 
