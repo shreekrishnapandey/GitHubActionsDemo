@@ -18,5 +18,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show Variable in Job 2
-        run: echo "AGENT_IP=${{ needs.job1.outputs.AGENT_IP }}"
+        run: echo "AGENT_IP=${{ needs.job1.job1_outputs.AGENT_IP }}"
 
