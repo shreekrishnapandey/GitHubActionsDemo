@@ -1,22 +1,20 @@
-name: Transfer data between jobs
+name: Share Variable Between Jobs Example
+
 on: [push]
 
 jobs:
   job1:
     runs-on: ubuntu-latest
+    # Map a step output to a job output
     outputs:
-      steps: ${{steps.job1_output.outputs }}
+      output1: ${{ steps.step1.outputs.test }}
     steps:
-      - name: Set Variable in Job 1
-        id: job1_output
-        run: |
-          echo "AGENT_IP= 172.64.0.0.1" >> $GITHUB_ENV
-          echo "::set-output name=AGENT_IP::your-agent-ip"
-
+    - id: step1
+      run: |
+        $agentIP="192.168.1.1"
+        echo "test=$agentIP" >> $GITHUB_ENV
   job2:
-    needs: job1
     runs-on: ubuntu-latest
+    needs: job1
     steps:
-      - name: Show Variable in Job 2
-        run: echo "AGENT_IP=${{ needs.job1.job1_outputs.AGENT_IP }}"
-
+    - run: echo ${{needs.job1.outputs.output1}}
