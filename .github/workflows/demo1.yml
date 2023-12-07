@@ -11,7 +11,7 @@ jobs:
     steps:
     - id: step1
       run: |
-        agentIP= "192.168.1.1"
+        agentIP= "hello"
         echo "test= agentIP" >> $GITHUB_ENV
 
   job2:
